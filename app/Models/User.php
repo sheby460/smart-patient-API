@@ -20,11 +20,23 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'f_name',
+        'l_name',
+        'DOB',
+        'username',
+        'address',
+        'gender',
         'email',
+        'phone',
+        'profId',
+        'ID_no',
+        'photo',
         'password',
     ];
-
+  
+    public function pfrof(){
+        return $this->belongsTo(Qualification::class, 'profId');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -44,4 +56,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+      
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\QualificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::group([], function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/registerUser', [AuthController::class, 'registerUser']); 
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    //User Route
+    Route::post('/users', [AuthController::class, 'index']);
+    // Route::post('/logoutUser', [AuthController::class, 'logoutUser']);
+
+    //Qualification Route....
+    Route::post('/addQualification', [QualificationController::class, 'addQualification']);
+
+
 });
