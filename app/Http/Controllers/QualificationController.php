@@ -12,61 +12,63 @@ class QualificationController extends Controller
          $this->middleware('auth:sanctum');
     }
 
-    public function index(){
+    public function index()
+    {
         $qulif = Qualification::all();
         return response()->json([
             'status' => 200,
             'message' => 'Qualification loaded successfully',
             'data' => $qulif,
-         ]);
+        ]);
 
     }
 
-    public function addQualification(Request $request){
+    public function addQualification(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'qualification_name' => 'required',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
                 'errors' => $validator->errors(),
-            ]);    
+            ]);
         }
         $qualifCheck = Qualification::where('qualification_name', $request->qualification_name)->first();
-        if($qualifCheck){
+        if ($qualifCheck) {
             return response()->json([
                 'status' => 400,
                 'message' => 'This qualification exists in the system',
                 'data' => $request->all()
-            ], 400);    
+            ], 400);
         }
         $qualif = Qualification::create([
-           'qualification_name'=> $request->input('qualification_name'),
-           'createdBy' => auth()->id(), 
+            'qualification_name' => $request->input('qualification_name'),
+            'createdBy' => auth()->id(),
         ]);
-        
-     return response()->json([
-        'status' => 200,
-        'message' => 'Clinic created successfully',
-        'data' => $qualif,
-    ]);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Clinic created successfully',
+            'data' => $qualif,
+        ]);
     }
 
     public function updateQualification(Request $request, $id)
     {
         $qualif = Qualification::find($id);
-    
+
         if (!$qualif) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Qualification not found',
             ], 404);
         }
-    
+
         $validator = Validator::make($request->all(), [
             'qualification_name' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
@@ -86,7 +88,7 @@ class QualificationController extends Controller
 
     public function softDeleteQalification(Request $request)
     {
-        $qualifCheck =Qualification::where('id', $request->id)->exists();
+        $qualifCheck = Qualification::where('id', $request->id)->exists();
 
         if (!$qualifCheck) {
             return response()->json([
@@ -95,7 +97,7 @@ class QualificationController extends Controller
                 'data' => ''
             ]);
         }
-        $qualif =Qualification::where('id', $request->id)->update([
+        $qualif = Qualification::where('id', $request->id)->update([
             'status' => 0,
         ]);
         return response()->json([
