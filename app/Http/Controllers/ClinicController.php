@@ -16,7 +16,7 @@ class ClinicController extends Controller
 
      return response()->json([
         'status' => 200,
-        'message' => 'Cost centers loaded successfully',
+        'message' => 'Clinic loaded successfully',
         'data' => $clinic,
      ]);
     }       

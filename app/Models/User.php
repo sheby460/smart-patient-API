@@ -28,12 +28,12 @@ class User extends Authenticatable
         'gender',
         'email',
         'phone',
-        'profId',
+        'profId',//professional ID
         'ID_no',
         'photo',
         'password',
     ];
-  
+    
     public function pfrof(){
         return $this->belongsTo(Qualification::class, 'profId');
     }
